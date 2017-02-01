@@ -1,0 +1,24 @@
+Sub ConvertWorkbookToValue()
+    Dim wbk As Workbook
+    Dim ws As Worksheet
+    Dim rng As Range
+    Dim cl As Object
+    
+    Application.Calculation = xlCalculationManual
+    Application.ScreenUpdating = False
+    On Error Resume Next
+    
+    Set wbk = ActiveWorkbook
+    For Each ws In wbk.Sheets
+        Set rng = ws.Range("A1").SpecialCells(xlCellTypeFormulas, 23)
+        If Not (rng Is Nothing) Then
+            For Each cl In rng
+                cl.Value = cl.Value
+            Next cl
+        End If
+    Next ws
+    Application.Calculate
+    Application.Calculation = xlCalculationAutomatic
+    Application.ScreenUpdating = True
+    MsgBox "Done"
+End Sub
